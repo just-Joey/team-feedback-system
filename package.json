@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:server": "node server/index.js",
-    "dev": "nodemon your-main-file.js"
+    "dev": "nodemon your-main-file.js",
+    "seed": "node server/prisma/seed.js"
 
   },
   "keywords": [],
