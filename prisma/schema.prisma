@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String
+  role      UserRole
+  teams     TeamMember[]
+  feedbackGiven     Feedback[] @relation("FeedbackFrom")
+  feedbackReceived  Feedback[] @relation("FeedbackTo")
+}
+
+model Team {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  members     TeamMember[]
+  feedback    Feedback[]
+}
+
+model TeamMember {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  team   Team @relation(fields: [teamId], references: [id])
+  teamId Int
+  role   String
+}
+
+model FeedbackCycle {
+  id        Int      @id @default(autoincrement())
+  name      String
+  startsAt  DateTime
+  endsAt    DateTime
+  isActive  Boolean  @default(true)
+  feedback  Feedback[]
+}
+
+model Feedback {
+  id           Int           @id @default(autoincrement())
+  fromUser     User          @relation("FeedbackFrom", fields: [fromUserId], references: [id])
+  fromUserId   Int
+  toUser       User          @relation("FeedbackTo", fields: [toUserId], references: [id])
+  toUserId     Int
+  team         Team          @relation(fields: [teamId], references: [id])
+  teamId       Int
+  feedbackCycle FeedbackCycle @relation(fields: [feedbackCycleId], references: [id])
+  feedbackCycleId Int
+  body         String
+  rating       Int
+  tags         FeedbackTag[]
+}
+
+model FeedbackTag {
+  id         Int      @id @default(autoincrement())
+  label      String
+  feedback   Feedback @relation(fields: [feedbackId], references: [id])
+  feedbackId Int
+}
+
+enum UserRole {
+  MANAGER
+  MEMBER
+}

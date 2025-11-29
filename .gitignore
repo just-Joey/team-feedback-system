@@ -1,0 +1,52 @@
+# -------------------------------------------------------------
+# Node / Core
+# -------------------------------------------------------------
+node_modules/
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+dist/
+build/
+.tmp/
+.temp/
+.cache/
+
+# -------------------------------------------------------------
+# Environment files 
+# -------------------------------------------------------------
+.env
+.env.*          # .env.local, .env.dev, etc.
+!.env.example   # keep a template if you want
+
+# -------------------------------------------------------------
+# Prisma
+# -------------------------------------------------------------
+.prisma/
+prisma/migrations/*.db-journal
+prisma/migrations/*/.gitkeep
+prisma/dev.db
+prisma/test.db
+
+# -------------------------------------------------------------
+# Vite + React
+# -------------------------------------------------------------
+client/node_modules/
+client/dist/
+client/.vite/
+client/.DS_Store
+
+# -------------------------------------------------------------
+# macOS / Finder garbage
+# -------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# -------------------------------------------------------------
+# VSCode
+# -------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
