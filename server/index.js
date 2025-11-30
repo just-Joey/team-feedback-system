@@ -4,6 +4,12 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
+app.use((req, res, next) => {
+  console.log("REQ:", req.method, JSON.stringify(req.url));
+  next();
+});
+
+
 
 const userRoute = require('./routes/users');
 const teamsroute = require('./routes/teams');
@@ -17,6 +23,7 @@ app.use(express.json());
 //Routes
 
 app.use('/users', require('./routes/users'));
+app.use('/teams', require('./routes/teams'));
 
 app.get('/', (req, res) => res.send('API is live'));
 // app.use('/api/users', userRoute);
