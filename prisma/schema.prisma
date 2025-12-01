@@ -44,18 +44,21 @@ model FeedbackCycle {
 }
 
 model Feedback {
-  id           Int           @id @default(autoincrement())
-  fromUser     User          @relation("FeedbackFrom", fields: [fromUserId], references: [id])
-  fromUserId   Int
-  toUser       User          @relation("FeedbackTo", fields: [toUserId], references: [id])
-  toUserId     Int
-  team         Team          @relation(fields: [teamId], references: [id])
-  teamId       Int
-  feedbackCycle FeedbackCycle @relation(fields: [feedbackCycleId], references: [id])
-  feedbackCycleId Int
-  body         String
-  rating       Int
-  tags         FeedbackTag[]
+  id             Int            @id @default(autoincrement())
+  fromUser       User           @relation("FeedbackFrom", fields: [fromUserId], references: [id])
+  fromUserId     Int
+  toUser         User           @relation("FeedbackTo", fields: [toUserId], references: [id])
+  toUserId       Int
+
+  team           Team?          @relation(fields: [teamId], references: [id])
+  teamId         Int?
+
+  feedbackCycle  FeedbackCycle? @relation(fields: [feedbackCycleId], references: [id])
+  feedbackCycleId Int?
+
+  body           String
+  rating         Int
+  tags           FeedbackTag[]
 }
 
 model FeedbackTag {

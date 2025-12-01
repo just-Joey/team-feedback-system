@@ -14,6 +14,7 @@ app.use((req, res, next) => {
 const userRoute = require('./routes/users');
 const teamsroute = require('./routes/teams');
 const feedbackRoute = require('./routes/feedback');
+const tagsRoute = require('./routes/tags');
 
 
 //Middleware
@@ -24,6 +25,8 @@ app.use(express.json());
 
 app.use('/users', require('./routes/users'));
 app.use('/teams', require('./routes/teams'));
+app.use('/feedback', require('./routes/feedback'));
+app.use('/tags', require('./routes/tags'));
 
 app.get('/', (req, res) => res.send('API is live'));
 // app.use('/api/users', userRoute);
