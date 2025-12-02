@@ -6,15 +6,8 @@ const prisma = require('../prisma/client');
 
 //Get all teams with their members
 router.get('/', async (req, res) => {
-    
     try {                                                                                                          
-        const teams = await prisma.team.findMany ({include: {
-            members: {
-                include: {
-                    user: true
-                }             
-            }
-        }})
+        const teams = await TeamsService.getAllTeams();
         res.json(teams);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch teams', error });
@@ -24,16 +17,7 @@ router.get('/', async (req, res) => {
 //Get team by ID
 router.get('/:id', async (req, res) => {
     try {
-        const team = await prisma.team.findUnique({
-            where: { id: parseInt(req.params.id) },
-            include: {
-                members: {
-                    include: {
-                        user: true
-                    }             
-                }
-            }
-        });
+        const team = await TeamsService.getTeamById(req.params.id);
         if (!team) {
             return res.status(404).json({ error: 'Team not found' });
         }
@@ -46,10 +30,7 @@ router.get('/:id', async (req, res) => {
 //GET members of a specific team by ID
 router.get('/:id/members', async (req, res) => {
     try {
-        const members = await prisma.teamMember.findMany({
-            where: { teamId: parseInt(req.params.id) },
-            include: { user: true }
-        });
+        const members = await TeamsService.getMembersByTeamId(req.params.id);
         res.json(members);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch team members', error });
@@ -59,14 +40,12 @@ router.get('/:id/members', async (req, res) => {
 //POST create new team
 router.post('/', async (req, res) => {
     const { name, description } = req.body;
+
     if(!name) {
         return res.status(400).json({ error: 'Name is required' });
     }
-
     try {
-        const team = await prisma.team.create({
-            data: { name, description },
-        });
+        const team = await TeamsService.createTeam({name, description});
         res.status(201).json(team);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create team', error });
@@ -77,13 +56,7 @@ router.post('/', async (req, res) => {
 router.post('/:id/members', async (req, res) => {
    const {userId, role} = req.body;
    try {
-       const teamMember = await prisma.teamMember.create({
-           data: {
-               teamId: parseInt(req.params.id),
-               userId,
-               role
-           }
-       });
+       const teamMember = await TeamsService.addMemberToTeam(req.params.id, userId, role);
        res.status(201).json(teamMember);
    } catch (error) {
        res.status(500).json({ error: 'Failed to add member to team', error });

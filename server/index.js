@@ -28,10 +28,14 @@ app.use('/teams', require('./routes/teams'));
 app.use('/feedback', require('./routes/feedback'));
 app.use('/tags', require('./routes/tags'));
 
-app.get('/', (req, res) => res.send('API is live'));
-// app.use('/api/users', userRoute);
-// app.use('/api/teams', teamsroute);
-// app.use('/api/feedback', feedbackRoute);
+//Health check
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'API is live'
+  });
+});
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
