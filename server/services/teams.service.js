@@ -1,7 +1,7 @@
 const prisma = require('../prisma/client');
 
 exports.getAllTeams = async () => {
-   return await prisma.team.findMany ({
+   return prisma.team.findMany ({
        include: {
            members: {
                include: {
@@ -13,7 +13,7 @@ exports.getAllTeams = async () => {
 }
 
 exports.getTeamById = async (id) => {
-   return await prisma.team.findUnique({
+   return prisma.team.findUnique({
        where: { id: parseInt(id) },
        include: {
            members: {
@@ -26,7 +26,7 @@ exports.getTeamById = async (id) => {
 }
 
 exports.getMembersByTeamId = async (teamIdMember) => {
-   return await prisma.teamMember.findMany({
+   return teamMember.findMany({
        where: { teamId: parseInt(teamIdMember) },
        include: { user: true }
    });

@@ -1,6 +1,7 @@
 const expess = require('express');
 const router = expess.Router();
 const prisma = require('../prisma/client');
+const UserService = require('../services/users.service');
 
 //GET all users and order in ascending order by ID
 router.get('/', async (req, res) => {
@@ -8,6 +9,7 @@ router.get('/', async (req, res) => {
         const users = await UserService.getAllUsers();
         res.json(users);
     } catch (error) {
+        console.error('USERS ROUTE ERROR:', error);
         res.status(500).json({ error: 'Failed to fetch users' });
     }
 });

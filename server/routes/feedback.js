@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const prisma = require('../prisma/client');
-
+const FeedbackService = require('../services/feedback.service');
 
  //Dynamic filter function for queries
 function buildFilter(query) {
@@ -14,22 +14,14 @@ function buildFilter(query) {
 
   return where;
 }
+
+
 //GET All feedback with filers
 router.get('/', async (req, res) => {
   try {
     const where = buildFilter(req.query);
 
-    const feedback = await prisma.feedback.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        fromUser: true,
-        toUser: true,
-        team: true,
-        feedbackCycle: true,
-        tags: true,
-      },
-    });
+    const feedback = await FeedbackService.getAllFeedback(where);
 
     res.json(feedback);
   } catch (err) {
@@ -43,16 +35,7 @@ router.get('/:id', async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
-    const entry = await prisma.feedback.findUnique({
-      where: { id },
-      include: {
-        fromUser: true,
-        toUser: true,
-        team: true,
-        feedbackCycle: true,
-        tags: true,
-      },
-    });
+    const entry = await FeedbackService.getFeedbackById(id);
 
     if (!entry) {
       return res.status(404).json({ error: 'Feedback not found' });
@@ -67,7 +50,6 @@ router.get('/:id', async (req, res) => {
 
 
   // Create feedback
-
 router.post('/', async (req, res) => {
   const { fromUserId, toUserId, teamId, feedbackCycleId, body, rating, tags } =
     req.body;
@@ -82,27 +64,14 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const created = await prisma.feedback.create({
-      data: {
-        fromUserId,
-        toUserId,
-        teamId: teamId ?? null,
-        feedbackCycleId: feedbackCycleId ?? null,
-        body,
-        rating,
-        tags: tags && Array.isArray(tags)
-          ? {
-              create: tags.map((label) => ({ label })),
-            }
-          : undefined,
-      },
-      include: {
-        fromUser: true,
-        toUser: true,
-        team: true,
-        feedbackCycle: true,
-        tags: true,
-      },
+    const created = await FeedbackService.createFeedback({
+      fromUserId,
+      toUserId,
+      teamId,
+      feedbackCycleId,
+      body,
+      rating,
+      tags,                 
     });
 
     res.status(201).json(created);

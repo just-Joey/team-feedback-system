@@ -24,17 +24,33 @@ app.use(express.json());
 //Routes
 
 app.use('/users', require('./routes/users'));
+console.log('Mouted users route')
 app.use('/teams', require('./routes/teams'));
 app.use('/feedback', require('./routes/feedback'));
 app.use('/tags', require('./routes/tags'));
 
 //Health check
-app.get('/', (req, res) => {
-  res.json({
-    status: 'ok',
-    message: 'API is live'
-  });
+// app.get('/', (req, res) => {
+//   res.json({
+//     status: 'ok',
+//     message: 'API is live'
+//   });
+// });
+
+app.get('/health', (req, res) => res.json({ ok: true }));
+
+
+app.use((err, req, res, next) => {
+  console.error('🔥 UNHANDLED ERROR:', err);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
+
+app.use((req, res, next) => {
+  console.log(`REQ: ${req.method} ${req.url}`);
+  next();
+});
+
+
 
 
 const PORT = process.env.PORT || 4000;
