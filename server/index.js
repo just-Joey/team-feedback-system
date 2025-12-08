@@ -20,11 +20,11 @@ const tagsRoute = require('./routes/tags');
 //Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //Routes
 
 app.use('/users', require('./routes/users'));
-console.log('Mouted users route')
 app.use('/teams', require('./routes/teams'));
 app.use('/feedback', require('./routes/feedback'));
 app.use('/tags', require('./routes/tags'));
