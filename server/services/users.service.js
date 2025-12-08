@@ -8,8 +8,8 @@ exports.getUserById = async (id) => {
    return prisma.user.findUnique({ where: { id: parseInt(id) } });
 }
 
-exports.createUser = async (data) => {
- return await prisma.user.create(data);
+exports.createUser = (data) => {
+   return prisma.user.create({ data });
 }
 
 exports.updateUser = async (id, data) => {

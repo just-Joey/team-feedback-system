@@ -1,6 +1,5 @@
-const expess = require('express');
+const express = require('express');
 const router = expess.Router();
-const prisma = require('../prisma/client');
 const UserService = require('../services/users.service');
 
 //GET all users and order in ascending order by ID
@@ -31,7 +30,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const {name, email, role} = req.body;
     try {
-        const newUser = await UserService.user.createUser({
+        const newUser = await UserService.createUser({
           name,
           email,
           role
