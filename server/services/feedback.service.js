@@ -1,4 +1,5 @@
 const prisma = require('../prisma/client');
+const buildFilter = require('../utils/buildFilter');
 
 exports.getAllFeedback = async (filters) => {
   const where = buildFilter(filters);

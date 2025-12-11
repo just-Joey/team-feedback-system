@@ -2,21 +2,14 @@ const express = require('express');
 const router = express.Router();
 const prisma = require('../prisma/client');
 const FeedbackService = require('../services/feedback.service');
+const buildFilter = require('../utils/buildFilter');
 
  //Dynamic filter function for queries
-function buildFilter(query) {
-  const where = {};
-
-  if (query.fromUserId) where.fromUserId = parseInt(query.fromUserId);
-  if (query.toUserId) where.toUserId = parseInt(query.toUserId);
-  if (query.teamId) where.teamId = parseInt(query.teamId);
-  if (query.feedbackCycleId) where.feedbackCycleId = parseInt(query.feedbackCycleId);
-
-  return where;
-}
 
 
-//GET All feedback with filers
+
+
+//GET All feedback with filters
 router.get('/', async (req, res) => {
   try {
     const where = buildFilter(req.query);

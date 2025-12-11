@@ -45,6 +45,10 @@ model FeedbackCycle {
 
 model Feedback {
   id             Int            @id @default(autoincrement())
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
   fromUser       User           @relation("FeedbackFrom", fields: [fromUserId], references: [id])
   fromUserId     Int
   toUser         User           @relation("FeedbackTo", fields: [toUserId], references: [id])
