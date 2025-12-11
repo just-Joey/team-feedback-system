@@ -18,7 +18,7 @@ exports.getAllFeedback = async (filters) => {
 }   
 
 exports.getFeedbackById = async (id) => {
-  return awaitprisma.feedback.findUnique({
+  return await prisma.feedback.findUnique({
     where: { id: parseInt(id) },
     include: {
       fromUser: true,
