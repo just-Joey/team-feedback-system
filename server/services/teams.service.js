@@ -33,16 +33,14 @@ exports.getMembersByTeamId = async (teamIdMember) => {
 }
 
 exports.createTeam = async (data) => {
-   return await prisma.team.create({
-       data: ({data}),
-   });
+return prisma.team.create({data})
 }
 
 exports.addMemberToTeam = async (teamId, userId, role) => {
    return await prisma.teamMember.create({
        data: {
            teamId: parseInt(teamId),
-           userId,
+           userId: parseInt(userId),
            role
        }
    });

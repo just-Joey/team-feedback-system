@@ -1,8 +1,8 @@
-
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-require('dotenv').config();
+
 
 app.use((req, res, next) => {
   console.log("REQ:", req.method, JSON.stringify(req.url));
@@ -38,6 +38,9 @@ app.use('/tags', require('./routes/tags'));
 // });
 
 app.get('/health', (req, res) => res.json({ ok: true }));
+
+
+
 
 
 app.use((err, req, res, next) => {

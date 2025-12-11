@@ -15,6 +15,16 @@ router.get('/', async (req, res) => {
     }
 });
 
+//GET members of a specific team by ID
+router.get('/:id/members', async (req, res) => {
+    try {
+        const members = await TeamsService.getMembersByTeamId(req.params.id);
+        res.json(members);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch team members', error });
+    }
+});
+
 //Get team by ID
 router.get('/:id', async (req, res) => {
     try {
@@ -28,15 +38,7 @@ router.get('/:id', async (req, res) => {
     }
 });
       
-//GET members of a specific team by ID
-router.get('/:id/members', async (req, res) => {
-    try {
-        const members = await TeamsService.getMembersByTeamId(req.params.id);
-        res.json(members);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch team members', error });
-    }
-});
+
      
 //POST create new team
 router.post('/', async (req, res) => {
@@ -49,12 +51,15 @@ router.post('/', async (req, res) => {
         const team = await TeamsService.createTeam({name, description});
         res.status(201).json(team);
     } catch (error) {
+        console.error('POST /teams error:', error);
         res.status(500).json({ error: 'Failed to create team', error });
     }
 }); 
 
 //POST member to a team
 router.post('/:id/members', async (req, res) => {
+    console.log("PARAMS:",req.params);
+    console.log("BODY:",req.body);
    const {userId, role} = req.body;
    try {
        const teamMember = await TeamsService.addMemberToTeam(req.params.id, userId, role);
