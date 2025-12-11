@@ -1,3 +1,4 @@
+ //Dynamic filter function for queries
 function buildFilter(query) {
  const where = {}; 
 

@@ -30,9 +30,11 @@ exports.getFeedbackById = async (id) => {
   });
 }
 
+
+
 exports.createFeedback = async (data) => {
-  return await prisma.feedback.create({
-    data: (data),
+  return prisma.feedback.create({
+    data,
     include: {
       fromUser: true,
       toUser: true,
@@ -40,5 +42,6 @@ exports.createFeedback = async (data) => {
       feedbackCycle: true,
       tags: true,
     },
-  });
-}
+  }); 
+};
+

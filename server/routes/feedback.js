@@ -4,11 +4,6 @@ const prisma = require('../prisma/client');
 const FeedbackService = require('../services/feedback.service');
 const buildFilter = require('../utils/buildFilter');
 
- //Dynamic filter function for queries
-
-
-
-
 //GET All feedback with filters
 router.get('/', async (req, res) => {
   try {
@@ -48,7 +43,7 @@ router.post('/', async (req, res) => {
     req.body;
 
   // validation
-  if (!fromUserId || !toUserId || !body) {
+  if (!fromUserId || !toUserId || !body || rating == null) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -60,11 +55,13 @@ router.post('/', async (req, res) => {
     const created = await FeedbackService.createFeedback({
       fromUserId,
       toUserId,
-      teamId,
+      teamId: teamId || null,
       feedbackCycleId,
       body,
       rating,
-      tags,                 
+      tags: Array.isArray(tags)
+      ? { create: tags.map(t => ({label: t})) }
+      : undefined,                   
     });
 
     res.status(201).json(created);
