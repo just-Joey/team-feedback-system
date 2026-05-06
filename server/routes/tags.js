@@ -12,6 +12,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/', async (req, res) => {
+    const { name } = req.body;
+    try {
+        const newTag = await prisma.feedbackTag.create({
+            data: { name }
+        });
+        res.json(newTag);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to create tag' });
+    }
+});     
+
 //DELETE tag by ID
 router.delete('/:id', async (req, res) => {
     try {

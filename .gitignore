@@ -50,3 +50,4 @@ client/.DS_Store
 !.vscode/extensions.json
 !.vscode/settings.json
 
+.claude
