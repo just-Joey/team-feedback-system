@@ -15,6 +15,11 @@ model User {
   teams     TeamMember[]
   feedbackGiven     Feedback[] @relation("FeedbackFrom")
   feedbackReceived  Feedback[] @relation("FeedbackTo")
+
+  //for auth
+  password String
+  authRole AuthRole @defualt(USER)
+  refreshToken String?
 }
 
 model Team {
@@ -76,3 +81,10 @@ enum UserRole {
   MANAGER
   MEMBER
 }
+
+enum AuthRole {
+  ADMIN
+  USER
+}
+
+

@@ -7,7 +7,6 @@
     "start:server": "node server/index.js",
     "dev": "nodemon server/index.js",
     "seed": "node server/prisma/seed.js"
-
   },
   "keywords": [],
   "author": "",
@@ -15,9 +14,12 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^5.15.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.3",
     "prisma": "^5.15.0"
   },
   "devDependencies": {
